@@ -72,6 +72,12 @@ export const BillingInterface: React.FC = () => {
       setProducts(productList)
     } catch (error) {
       console.error('Error loading products:', error)
+      // Set some default products if database fails
+      setProducts([
+        { id: '1', name: 'Beer', category: 'drinks', price: 5.00, stock_quantity: 100 },
+        { id: '2', name: 'Cocktail', category: 'drinks', price: 12.00, stock_quantity: 50 },
+        { id: '3', name: 'Wine', category: 'drinks', price: 8.00, stock_quantity: 30 }
+      ])
     }
   }
 
@@ -92,6 +98,7 @@ export const BillingInterface: React.FC = () => {
       setSearchResults(filtered.slice(0, 5))
     } catch (error) {
       console.error('Error searching members:', error)
+      setSearchResults([])
     }
   }
 

@@ -32,9 +32,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     // Check for stored user session
-    const storedUser = localStorage.getItem('nightclub_user')
-    if (storedUser) {
-      setUser(JSON.parse(storedUser))
+    try {
+      const storedUser = localStorage.getItem('nightclub_user')
+      if (storedUser) {
+        setUser(JSON.parse(storedUser))
+      }
+    } catch (error) {
+      console.error('Error loading stored user:', error)
+      localStorage.removeItem('nightclub_user')
     }
     setIsLoading(false)
   }, [])

@@ -34,6 +34,7 @@ export const Dashboard: React.FC = () => {
   })
   const [recentTransactions, setRecentTransactions] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     loadDashboardData()
@@ -41,6 +42,7 @@ export const Dashboard: React.FC = () => {
 
   const loadDashboardData = async () => {
     try {
+      setError(null)
       const today = new Date().toISOString().split('T')[0]
       
       // Get today's transactions
@@ -88,6 +90,7 @@ export const Dashboard: React.FC = () => {
       
     } catch (error) {
       console.error('Error loading dashboard data:', error)
+      setError('Failed to load dashboard data. Please try again.')
     } finally {
       setIsLoading(false)
     }
@@ -117,6 +120,24 @@ export const Dashboard: React.FC = () => {
               <div key={i} className="h-32 bg-gray-700 rounded"></div>
             ))}
           </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-6">
+        <div className="text-center py-12">
+          <AlertTriangle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-white mb-2">Error Loading Dashboard</h2>
+          <p className="text-gray-400 mb-4">{error}</p>
+          <button 
+            onClick={loadDashboardData}
+            className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded"
+          >
+            Try Again
+          </button>
         </div>
       </div>
     )
